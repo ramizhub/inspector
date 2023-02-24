@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <curl/curl.h>
+#include <thread>
 using namespace std;
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata)
@@ -21,18 +22,21 @@ int main()
     curl_easy_setopt(curl, CURLOPT_URL, "https://www.sumnotes.net/");
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
 
-    auto start = chrono::high_resolution_clock::now();
-    CURLcode res = curl_easy_perform(curl);
-    auto end = chrono::high_resolution_clock::now();
-    auto response_time = chrono::duration_cast<chrono::milliseconds>(end - start);
+    while (true) {
+        auto start = chrono::high_resolution_clock::now();
+        CURLcode res = curl_easy_perform(curl);
+        auto end = chrono::high_resolution_clock::now();
+        auto response_time = chrono::duration_cast<chrono::milliseconds>(end - start);
 
-    if (res == CURLE_OK) {
-        long response_code;
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
-        cout << "Response status code: " << response_code << endl;
-        cout << "Response time: " << response_time.count() << " ms" << endl;
-    } else {
-        cerr << "Request failed: " << curl_easy_strerror(res) << endl;
+        if (res == CURLE_OK) {
+            long response_code;
+            curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
+            cout << "Response status code: " << response_code << endl;
+            cout << "Response time: " << response_time.count() << " ms" << endl;
+        } else {
+            cerr << "Request failed: " << curl_easy_strerror(res) << endl;
+        }
+	std::this_thread::sleep_for(std::chrono::seconds(2));
     }
 
     curl_easy_cleanup(curl);
@@ -40,4 +44,3 @@ int main()
 
     return 0;
 }
-
