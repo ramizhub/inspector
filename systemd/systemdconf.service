@@ -1,0 +1,15 @@
+[Unit]
+Description=Web Monitoring Service
+After=network.target
+
+[Service]
+TYPE=simple
+ExecStart=/home/ramiz/inspector/a.out
+WorkingDirectory=/home/ramiz
+Restart=always
+User=ramiz
+Group=ramiz
+
+[Install]
+WantedBy=multi-user.target
+
