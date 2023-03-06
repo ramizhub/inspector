@@ -46,7 +46,7 @@ void send_request_fill_db(CURL *curl, influxdb_cpp::server_info &si)
         } else
             print_request_err(res);
         
-        std::this_thread::sleep_for(std::chrono::seconds(2));
+        std::this_thread::sleep_for(std::chrono::seconds(120));
     }
 }
 
