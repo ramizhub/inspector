@@ -1,0 +1,14 @@
+[Unit]
+Description=Web Monitoring Service
+After=network.target
+
+[Service]
+TYPE=simple
+ExecStart=/opt/bin/inspectorbin
+WorkingDirectory=/opt/bin
+Restart=always
+User=inspector
+Group=inspector
+
+[Install]
+WantedBy=multi-user.target
