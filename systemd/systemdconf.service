@@ -4,11 +4,11 @@ After=network.target
 
 [Service]
 TYPE=simple
-ExecStart=/opt/bin/a.out
+ExecStart=/opt/bin/inspectorbin
 WorkingDirectory=/opt/bin
 Restart=always
 User=inspector
-Group=inspectorserv
+Group=inspector
 
 [Install]
 WantedBy=multi-user.target
